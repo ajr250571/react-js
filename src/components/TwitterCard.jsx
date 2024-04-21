@@ -1,14 +1,18 @@
 import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
-function TwitterCard({ userName, name, isFollowing = false }) {
+function TwitterCard({ userName, name, initIsFollowing = true }) {
+  const [isFollowing, setIsFollowing] = useState(initIsFollowing);
   const imageSrc = `https://unavatar.io/${userName}`;
 
-  const text = follow ? "Siguiendo" : "Seguir";
-  const buttonClass = follow
+  const text = isFollowing ? "Siguiendo" : "Seguir";
+  const buttonClass = isFollowing
     ? "btn rounded-full btn-primary"
     : "btn rounded-full btn-secondary";
-  const [follow, setFollow] = useState(isFollowing);
+
+  const handleClick = () => {
+    setIsFollowing(!isFollowing);
+  };
   return (
     <>
       <div className="card card-side card-compact bg-base-300 shadow-xl">
@@ -24,10 +28,7 @@ function TwitterCard({ userName, name, isFollowing = false }) {
             <h2 className="card-title">{name}</h2>
             <p>{`@${userName}`}</p>
           </div>
-          <div
-            onClick={setFollow(!isFollowing)}
-            className="card-actions justify-end"
-          >
+          <div onClick={handleClick} className="card-actions justify-end">
             <button className={buttonClass}>{text}</button>
           </div>
         </div>
